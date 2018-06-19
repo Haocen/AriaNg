@@ -6,6 +6,7 @@ var fs = require('fs');
 var git = require('git-rev-sync');
 var tryFn = require('nice-try');
 var saveLicense = require('uglify-save-license');
+var replace = require('gulp-replace');
 
 var $ = gulpLoadPlugins();
 var reload = browserSync.reload;
@@ -55,11 +56,21 @@ gulp.task('prepare-styles', function () {
 
 gulp.task('prepare-scripts', function () {
     return gulp.src([
-        'src/scripts/**/*.js'
+        'src/scripts/**/*.js', '!src/scripts/config/constants.js'
     ]).pipe($.plumber())
         .pipe($.injectVersion({replace: '${ARIANG_VERSION}'}))
         .pipe($.replace(/\${ARIANG_BUILD_COMMIT}/g, tryFn(git.short) || 'Local'))
         .pipe(gulp.dest('.tmp/scripts'))
+        .pipe(reload({stream: true}));
+});
+
+gulp.task('inject-env', function () {
+    return gulp.src([
+        'src/scripts/config/constants.js'
+    ]).pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
+        .pipe(replace('shouldDisableShutdown: false', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
+        .pipe(gulp.dest('.tmp/scripts/config'))
+        .pipe($.revReplace())
         .pipe(reload({stream: true}));
 });
 
@@ -71,7 +82,16 @@ gulp.task('prepare-views', function () {
         .pipe(gulp.dest('.tmp/scripts'));
 });
 
-gulp.task('prepare-html', ['prepare-styles', 'prepare-scripts', 'prepare-views'], function () {
+gulp.task('lint', function () {
+    return gulp.src([
+        'src/scripts/**/*.js'
+    ]).pipe(reload({stream: true, once: true}))
+        .pipe($.eslint.format())
+        .pipe($.if(!browserSync.active, $.eslint.failAfterError()))
+        .pipe(gulp.dest('src/scripts'));
+});
+
+gulp.task('prepare-html', ['prepare-styles', 'prepare-scripts', 'inject-env', 'prepare-views'], function () {
     return gulp.src([
         'src/*.html'
     ]).pipe($.useref({searchPath: ['.tmp', 'src', '.']}))
