@@ -25,16 +25,16 @@
     }).constant('ariaNgDefaultOptions', {
         language: 'en',
         theme: 'light',
-        title: '${downspeed}, ${upspeed} - ${title}',
+        title: '↓${downspeed:noprefix:nosuffix:scale=1} ↑${upspeed:noprefix:nosuffix:scale=1} - ${title}',
         titleRefreshInterval: 5000,
         browserNotification: false,
         browserNotificationSound: true,
         browserNotificationFrequency: 'unlimited',
         rpcAlias: '',
         rpcHost: '',
-        rpcPort: '6800',
+        rpcPort: '',
         rpcInterface: 'jsonrpc',
-        protocol: 'http',
+        protocol: '',
         httpMethod: 'POST',
         rpcRequestHeaders: '',
         secret: '',
@@ -57,6 +57,7 @@
         waitingTaskListPageDisplayOrder: 'default:asc',
         stoppedTaskListPageDisplayOrder: 'default:asc',
         fileListDisplayOrder: 'default:asc',
-        peerListDisplayOrder: 'default:asc'
+        peerListDisplayOrder: 'default:asc',
+        shouldDisableShutdown: true
     });
 }());

@@ -53,7 +53,7 @@
                         ng-click="reconnect()" promise-btn><span translate>Reconnect</span></button>
                 <button class="btn btn-sm btn-primary" ng-if="context.serverStatus"
                         ng-click="saveSession()" promise-btn><span translate>Save Session</span></button>
-                <button class="btn btn-sm btn-danger promise-btn-style" ng-if="context.serverStatus"
+                <button class="btn btn-sm btn-danger promise-btn-style" ng-if="context.serverStatus && !context.shouldDisableShutdown"
                         ng-click="shutdown()"><span translate>Shutdown Aria2</span></button>
             </div>
         </div>
