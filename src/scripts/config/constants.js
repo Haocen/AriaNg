@@ -23,14 +23,14 @@
         cachedDebugLogsLimit: 100
     }).constant('ariaNgDefaultOptions', {
         language: 'en',
-        title: '${downspeed}, ${upspeed} - ${title}',
+        title: '↓${downspeed:noprefix:nosuffix:scale=1} ↑${upspeed:noprefix:nosuffix:scale=1} - ${title}',
         titleRefreshInterval: 5000,
         browserNotification: false,
         rpcAlias: '',
         rpcHost: '',
-        rpcPort: '6800',
+        rpcPort: '',
         rpcInterface: 'jsonrpc',
-        protocol: 'http',
+        protocol: '',
         httpMethod: 'POST',
         secret: '',
         extendRpcServers: [],
@@ -42,6 +42,7 @@
         afterRetryingTask: 'task-list-downloading',
         displayOrder: 'default:asc',
         fileListDisplayOrder: 'default:asc',
-        peerListDisplayOrder: 'default:asc'
+        peerListDisplayOrder: 'default:asc',
+        shouldDisableShutdown: true
     });
 }());
