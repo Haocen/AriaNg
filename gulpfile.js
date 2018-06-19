@@ -6,6 +6,7 @@ const fs = require('fs');
 const git = require('git-rev-sync');
 const tryFn = require('nice-try');
 const saveLicense = require('uglify-save-license');
+const replace = require('gulp-replace');
 
 const $ = gulpLoadPlugins();
 const reload = browserSync.reload;
@@ -69,6 +70,15 @@ gulp.task('prepare-html', gulp.series('prepare-styles', 'prepare-scripts', 'prep
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe($.revReplace())
     .pipe(gulp.dest('.tmp'))));
+
+gulp.task('inject-env', () =>  gulp.src([
+        'src/scripts/config/constants.js'
+    ])
+    .pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
+    .pipe(replace('shouldDisableShutdown: false', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
+    .pipe(gulp.dest('.tmp/scripts/config'))
+    .pipe($.revReplace())
+    .pipe(reload({stream: true})));
 
 gulp.task('process-html', gulp.series('prepare-html', () => gulp.src([
     '.tmp/*.html'
