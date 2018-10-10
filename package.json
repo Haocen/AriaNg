@@ -90,8 +90,5 @@
   "bugs": {
     "url": "https://github.com/mayswind/AriaNg/issues"
   },
-  "homepage": "http://ariang.mayswind.net/",
-  "dependencies": {
-    "bower": "^1.8.4"
-  }
+  "homepage": "http://ariang.mayswind.net/"
 }
