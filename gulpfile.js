@@ -72,8 +72,8 @@ gulp.task('prepare-html', gulp.series('prepare-styles', 'prepare-scripts', 'prep
     .pipe(gulp.dest('.tmp'))));
 
 gulp.task('inject-env', () =>  gulp.src([
-        'src/scripts/config/constants.js'
-    ])
+    'src/scripts/config/constants.js'
+])
     .pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
     .pipe(replace('shouldDisableShutdown: false', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
     .pipe(gulp.dest('.tmp/scripts/config'))
