@@ -116,7 +116,7 @@
                 return currentPort;
             }
 
-            return ariaNgConstants.defaultHost;
+            return ariaNgConstants.defaultPort;
         };
 
         var getDefaultRpcProtocol = function () {

@@ -11,6 +11,7 @@
         languageFileExtension: '.txt',
         defaultLanguage: 'en',
         defaultHost: 'localhost',
+        defaultPort: '6800',
         defaultSecureProtocol: 'https',
         defaultPathSeparator: '/',
         websocketAutoReconnect: true,
