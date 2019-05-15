@@ -174,7 +174,7 @@ gulp.task('process-manifest', function () {
     return gulp.src([
         'dist/css/**',
         'dist/js/**',
-        'dist/fonts/fontawesome-webfont.woff2',
+        'dist/fonts/**',
         'dist/*.html',
         'dist/*.ico',
         'dist/*.png'
