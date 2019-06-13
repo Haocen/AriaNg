@@ -6,6 +6,7 @@ bower_components/
 
 build/
 dist/
+dist.*/
 ### Windows template
 # Windows image file caches
 Thumbs.db
