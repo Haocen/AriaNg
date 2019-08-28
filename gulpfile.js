@@ -67,7 +67,9 @@ gulp.task('prepare-scripts', function () {
 gulp.task('inject-env', function () {
     return gulp.src([
         'src/scripts/config/constants.js'
-    ]).pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
+    ]).pipe(replace('secret: \'\'', `secret: '${process.env.SECRET ? process.env.SECRET : ''}'`))
+        .pipe(replace('defaultPort: \'\'', `defaultPort: '${process.env.RPC_DEFAULT_PORT ? process.env.RPC_DEFAULT_PORT : ''}'`))
+        .pipe(replace('defaultHost: \'\'', `defaultHost: '${process.env.RPC_DEFAULT_HOST ? process.env.RPC_DEFAULT_HOST : ''}'`))
         .pipe(replace('shouldDisableShutdown: false', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
         .pipe(gulp.dest('.tmp/scripts/config'))
         .pipe(reload({stream: true}));
