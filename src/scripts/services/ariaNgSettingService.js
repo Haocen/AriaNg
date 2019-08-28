@@ -125,23 +125,23 @@
         };
 
         var getDefaultRpcHost = function () {
-            var currentHost = $location.host();
+            var defaultHost = ariaNgConstants.defaultHost;
 
-            if (currentHost) {
-                return currentHost;
+            if (defaultHost) {
+                return defaultHost;
             }
 
-            return ariaNgConstants.defaultHost;
+            return $location.host();
         };
 
         var getDefaultRpcPort = function () {
-            var currentPort = $location.port();
+            var defaultPort = ariaNgConstants.defaultPort;
 
-            if (currentPort) {
-                return currentPort;
+            if (defaultPort) {
+                return defaultPort;
             }
 
-            return ariaNgConstants.defaultPort;
+            return $location.port();
         };
 
         var getDefaultRpcProtocol = function () {
