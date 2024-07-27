@@ -35,7 +35,7 @@
         rpcHost: '',
         rpcPort: '',
         rpcInterface: 'jsonrpc',
-        protocol: '',
+        protocol: 'wss',
         httpMethod: 'POST',
         rpcRequestHeaders: '',
         secret: '',
