@@ -42,8 +42,17 @@ gulp.task('prepare-styles', () => gulp.src([
     .pipe(gulp.dest('.tmp/styles'))
     .pipe(reload({stream: true})));
 
+gulp.task('inject-env', () =>  gulp.src([
+    'src/scripts/config/constants.js'
+])
+    .pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
+    .pipe(replace('shouldDisableShutdown: true', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
+    .pipe(gulp.dest('.tmp/scripts/config'))
+    .pipe($.revReplace())
+    .pipe(reload({stream: true})));
+
 gulp.task('prepare-scripts', () => gulp.src([
-    'src/scripts/**/*.js'
+    'src/scripts/**/*.js', '!src/scripts/config/constants.js'
 ]).pipe($.plumber())
     .pipe($.injectVersion({replace: '${ARIANG_VERSION}'}))
     .pipe($.replace(/\${ARIANG_BUILD_COMMIT}/g, tryFn(git.short) || 'Local'))
@@ -56,7 +65,7 @@ gulp.task('prepare-views', () => gulp.src([
     .pipe($.angularTemplatecache({module: 'ariaNg', filename: 'views/templates.js', root: 'views/'}))
     .pipe(gulp.dest('.tmp/scripts')));
 
-gulp.task('prepare-html', gulp.series('prepare-styles', 'prepare-scripts', 'prepare-views', () => gulp.src([
+gulp.task('prepare-html', gulp.series('prepare-styles', 'prepare-scripts', 'inject-env', 'prepare-views', () => gulp.src([
     'src/*.html'
 ]).pipe($.useref({searchPath: ['.tmp', 'src', '.']}))
     .pipe($.if('js/*.js', $.replace(/\/\/# sourceMappingURL=.*/g, '')))
@@ -70,15 +79,6 @@ gulp.task('prepare-html', gulp.series('prepare-styles', 'prepare-scripts', 'prep
     .pipe($.if('*.html', $.htmlmin({collapseWhitespace: true})))
     .pipe($.revReplace())
     .pipe(gulp.dest('.tmp'))));
-
-gulp.task('inject-env', () =>  gulp.src([
-    'src/scripts/config/constants.js'
-])
-    .pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
-    .pipe(replace('shouldDisableShutdown: true', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
-    .pipe(gulp.dest('.tmp/scripts/config'))
-    .pipe($.revReplace())
-    .pipe(reload({stream: true})));
 
 gulp.task('process-html', gulp.series('prepare-html', () => gulp.src([
     '.tmp/*.html'
