@@ -6,7 +6,7 @@
             host: ariaNgSettingService.getCurrentRpcUrl(),
             serverStatus: null,
             isSupportReconnect: aria2SettingService.canReconnect(),
-            shouldDisableShutdown: !ariaNgDefaultOptions.shouldDisableShutdown
+            shouldDisableShutdown: ariaNgDefaultOptions.shouldDisableShutdown
         };
 
         $scope.reconnect = function () {
