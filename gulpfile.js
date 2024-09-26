@@ -46,7 +46,8 @@ gulp.task('inject-env', () =>  gulp.src([
     'src/scripts/config/constants.js'
 ])
     .pipe(replace('secret: \'\'', `secret: '${process.env.SECRET}'`))
-    .pipe(replace('shouldDisableShutdown: true', `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
+    .pipe(replace(new RegExp(/shouldDisableShutdown:\s*(true|false)/), `shouldDisableShutdown: ${process.env.DISABLE_SHUTDOWN ? 'true' : 'false'}`))
+    .pipe(replace(new RegExp(/httpRequestTimeout:\s*\d+/), `httpRequestTimeout: ${process.env.HTTP_REQUEST_TIMEOUT ? process.env.HTTP_REQUEST_TIMEOUT : '20000'}`))
     .pipe(gulp.dest('.tmp/scripts/config'))
     .pipe($.revReplace())
     .pipe(reload({stream: true})));

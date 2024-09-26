@@ -59,6 +59,6 @@
         stoppedTaskListPageDisplayOrder: 'default:asc',
         fileListDisplayOrder: 'default:asc',
         peerListDisplayOrder: 'default:asc',
-        shouldDisableShutdown: true
+        shouldDisableShutdown: false
     });
 }());
